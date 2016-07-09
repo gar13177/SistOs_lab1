@@ -1,6 +1,8 @@
 
+import java.io.PrintWriter;
 import java.util.Random;
 import java.util.Scanner;
+
 import org.knowm.xchart.*;
 
 public class Main {
@@ -33,6 +35,9 @@ public class Main {
     	int avance = 1;//debe llegar a 10
     	System.out.println("|                   |");
     	System.out.print(" ");
+    	
+    	
+    	
     	for (int i = 1; i <= n; i++){
     		Director d = new Director(array,i,codificacion);
             d.start();
@@ -43,8 +48,11 @@ public class Main {
             	System.out.print("=");
             	avance++;
             }
+            if (i != n)
+            	array = str.toCharArray();
     	}
     	System.out.println();
+    	
     	System.out.println(all);
     	
     	XYChart chart = QuickChart.getChart("Sample Chart", "Cantidad de Threads", "Tiempo en ns", "t(T)", threads, time);
@@ -53,6 +61,18 @@ public class Main {
         new SwingWrapper(chart).displayChart();
 
     	System.out.println("Se ha abierto una nueva ventana");
+    	System.out.println("Se ha escrito un nuevo archivo 'cadena.txt' con el resultado");
+    	
+    	try{
+	    	PrintWriter writer = new PrintWriter("cadena.txt", "UTF-8");
+	    	writer.println("Original:");
+	    	writer.println(str);
+	    	writer.println("\nResultado:");
+	    	writer.println(String.valueOf(array));
+	    	writer.close();
+    	} catch (Exception e){
+    		e.printStackTrace();
+    	}
     	
     }
 
