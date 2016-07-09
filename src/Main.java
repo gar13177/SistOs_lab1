@@ -1,4 +1,5 @@
 
+import java.io.PrintWriter;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -11,7 +12,7 @@ public class Main {
     	Random random = new Random();
     	String abc = "abcdefghijklmnopqrstuvwxyz";
     	int longitud = 10000;
-    	int codificacion = 2;
+    	int codificacion = 3;
     	
     	String str = "";
     	for (int i = 0; i < longitud; i++){
@@ -35,6 +36,8 @@ public class Main {
     	System.out.println("|                   |");
     	System.out.print(" ");
     	
+    	
+    	
     	for (int i = 1; i <= n; i++){
     		Director d = new Director(array,i,codificacion);
             d.start();
@@ -45,7 +48,8 @@ public class Main {
             	System.out.print("=");
             	avance++;
             }
-            array = str.toCharArray();
+            if (i != n)
+            	array = str.toCharArray();
     	}
     	System.out.println();
     	
@@ -57,6 +61,18 @@ public class Main {
         new SwingWrapper(chart).displayChart();
 
     	System.out.println("Se ha abierto una nueva ventana");
+    	System.out.println("Se ha escrito un nuevo archivo 'cadena.txt' con el resultado");
+    	
+    	try{
+	    	PrintWriter writer = new PrintWriter("cadena.txt", "UTF-8");
+	    	writer.println("Original:");
+	    	writer.println(str);
+	    	writer.println("\nResultado:");
+	    	writer.println(String.valueOf(array));
+	    	writer.close();
+    	} catch (Exception e){
+    		e.printStackTrace();
+    	}
     	
     }
 
