@@ -10,8 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Director {
 	
-	private char[] array;
-	private char[] narray;
+	private static char[] array;
 	private int thr_count;
 	private ExecutorService es;
 	private int codificacion = 2;
@@ -47,8 +46,8 @@ public class Director {
 				last_pos = array.length;
 			}
 			
-			char[] temp = Arrays.copyOfRange(array, first_pos, last_pos);
-			Callable<char[]> callable = new Codificador(temp,codificacion);
+			//char[] temp = Arrays.copyOfRange(array, first_pos, last_pos);
+			Callable<char[]> callable = new Codificador(array,codificacion, first_pos, last_pos);
 			list.add(callable);
 			
 			first_pos = last_pos;
@@ -58,14 +57,7 @@ public class Director {
 		List<Future<char[]>> answers;
 		try{
 			answers = es.invokeAll(list);
-			narray = new char[array.length];
-			int i = 0;
-			for (Future<char[]> future : answers){
-				for (int j = 0; j<future.get().length; j++){
-					narray[i] = future.get()[j];
-					i++;
-				}
-			}
+			
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -74,7 +66,7 @@ public class Director {
 	}
 	
 	public char[] getArray(){
-		return narray;
+		return array;
 	}
 	
 	public String calculateTime(){
